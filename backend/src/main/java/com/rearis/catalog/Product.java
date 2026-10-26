@@ -17,8 +17,14 @@ public class Product {
     @Column(nullable = false, length = 200)
     private String name;
 
+    @Column(nullable = false, length = 200)
+    private String nameEn;
+
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(columnDefinition = "TEXT")
+    private String descriptionEn;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
@@ -41,10 +47,12 @@ public class Product {
 
     protected Product() {}
 
-    public Product(String name, String description, BigDecimal price,
+    public Product(String name, String nameEn, String description, String descriptionEn, BigDecimal price,
                    int stock, String imageUrl, Category category, boolean active) {
         this.name = name;
+        this.nameEn = nameEn;
         this.description = description;
+        this.description = descriptionEn;
         this.price = price;
         this.stock = stock;
         this.imageUrl = imageUrl;
