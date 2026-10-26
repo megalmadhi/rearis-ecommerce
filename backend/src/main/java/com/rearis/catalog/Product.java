@@ -62,7 +62,9 @@ public class Product {
 
     public Long getId() { return id; }
     public String getName() { return name; }
+    public String getNameEn() { return nameEn; }
     public String getDescription() { return description; }
+    public String getDescriptionEn() { return descriptionEn; }
     public BigDecimal getPrice() { return price; }
     public int getStock() { return stock; }
     public String getImageUrl() { return imageUrl; }
