@@ -37,6 +37,13 @@ public class ProductService {
                 .toList();
     }
 
+    public List<ProductResponse> getByCategorySlug(String slug) {
+        return productRepository.findByCategorySlugAndActiveTrue(slug)
+                .stream()
+                .map(ProductResponse::from)
+                .toList();
+    }
+
     public List<ProductResponse> search(String text) {
         return productRepository.findByNameContainingIgnoreCaseAndActiveTrue(text)
                 .stream()
