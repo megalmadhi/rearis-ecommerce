@@ -2,6 +2,10 @@ package com.rearis.catalog;
 
 import com.rearis.catalog.dto.ProductResponse;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import com.rearis.catalog.dto.ProductRequest;
 
 import java.util.List;
 
@@ -41,5 +45,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductResponse getProduct(@PathVariable Long id) {
         return productService.getById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest request) {
+        ProductResponse created = productService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }

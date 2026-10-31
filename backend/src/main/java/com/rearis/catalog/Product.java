@@ -47,12 +47,12 @@ public class Product {
 
     protected Product() {}
 
-    public Product(String name, String nameEn, String description, String descriptionEn, BigDecimal price,
-                   int stock, String imageUrl, Category category, boolean active) {
+    public Product(String name, String nameEn, String description, String descriptionEn,
+                   BigDecimal price, int stock, String imageUrl, Category category) {
         this.name = name;
         this.nameEn = nameEn;
         this.description = description;
-        this.description = descriptionEn;
+        this.descriptionEn = descriptionEn;
         this.price = price;
         this.stock = stock;
         this.imageUrl = imageUrl;
