@@ -6,6 +6,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.rearis.catalog.dto.ProductRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import com.rearis.common.PageResponse;
 
 import java.util.List;
 
@@ -19,21 +22,19 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // GET /api/products
-    // GET /api/products?categoryId=2
-    // GET /api/products?search=kostum
     @GetMapping
-    public List<ProductResponse> getProducts(
+    public PageResponse<ProductResponse> getProducts(
             @RequestParam(required = false) Long categoryId,
-            @RequestParam(required = false) String search) {
+            @RequestParam(required = false) String search,
+            @PageableDefault(size = 12, sort = "id") Pageable pageable) {
 
         if (search != null && !search.isBlank()) {
-            return productService.search(search);
+            return productService.search(search, pageable);
         }
         if (categoryId != null) {
-            return productService.getByCategory(categoryId);
+            return productService.getByCategory(categoryId, pageable);
         }
-        return productService.getAllActive();
+        return productService.getAllActive(pageable);
     }
 
     @GetMapping("/category/{slug}")

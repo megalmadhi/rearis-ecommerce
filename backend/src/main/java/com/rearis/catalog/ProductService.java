@@ -5,6 +5,10 @@ import com.rearis.common.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.rearis.catalog.dto.ProductRequest;
+import com.rearis.common.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 
@@ -62,11 +66,10 @@ public class ProductService {
         product.deactivate();          // call the method from step 1
     }                            // no save(): dirty checking writes the UPDATE
 
-    public List<ProductResponse> getAllActive() {
-        return productRepository.findByActiveTrue()
-                .stream()
-                .map(ProductResponse::from)
-                .toList();
+    public PageResponse<ProductResponse> getAllActive(Pageable pageable) {
+        Page<ProductResponse> page = productRepository.findByActiveTrue(pageable)
+                .map(ProductResponse::from);
+        return PageResponse.from(page);
     }
 
     public ProductResponse getById(Long id) {
@@ -75,22 +78,20 @@ public class ProductService {
         return ProductResponse.from(product);
     }
 
-    public List<ProductResponse> getByCategory(Long categoryId) {
-        return productRepository.findByCategoryIdAndActiveTrue(categoryId)
-                .stream()
-                .map(ProductResponse::from)
-                .toList();
+    public PageResponse<ProductResponse> getByCategory(Long categoryId, Pageable pageable) {
+        Page<ProductResponse> page = productRepository.findByCategoryIdAndActiveTrue(categoryId, pageable)
+                .map(ProductResponse::from);
+        return PageResponse.from(page);
+    }
+
+    public PageResponse<ProductResponse> search(String text, Pageable pageable) {
+        Page<ProductResponse> page = productRepository.findByNameContainingIgnoreCaseAndActiveTrue(text, pageable)
+                .map(ProductResponse::from);
+        return PageResponse.from(page);
     }
 
     public List<ProductResponse> getByCategorySlug(String slug) {
         return productRepository.findByCategorySlugAndActiveTrue(slug)
-                .stream()
-                .map(ProductResponse::from)
-                .toList();
-    }
-
-    public List<ProductResponse> search(String text) {
-        return productRepository.findByNameContainingIgnoreCaseAndActiveTrue(text)
                 .stream()
                 .map(ProductResponse::from)
                 .toList();
