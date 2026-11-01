@@ -36,6 +36,32 @@ public class ProductService {
         return ProductResponse.from(saved);
     }
 
+    @Transactional
+    public ProductResponse update(Long id, ProductRequest request) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product " + id + " not found"));
+
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new NotFoundException("Category " + request.categoryId() + " not found"));
+
+        product.update(
+                request.name(), request.nameEn(),
+                request.description(), request.descriptionEn(),
+                request.price(), request.stock(),
+                request.imageUrl(), category
+        );
+
+        return ProductResponse.from(product);   // no save(): dirty checking stores the changes
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product " + id + " not found"));  // same as the first line of update()
+
+        product.deactivate();          // call the method from step 1
+    }                            // no save(): dirty checking writes the UPDATE
+
     public List<ProductResponse> getAllActive() {
         return productRepository.findByActiveTrue()
                 .stream()
@@ -44,7 +70,7 @@ public class ProductService {
     }
 
     public ProductResponse getById(Long id) {
-        Product product = productRepository.findById(id)
+        Product product = productRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new NotFoundException("Product " + id + " not found"));
         return ProductResponse.from(product);
     }
