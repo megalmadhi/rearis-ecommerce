@@ -47,6 +47,19 @@ public class ProductController {
         return productService.getById(id);
     }
 
+    // PUT /api/products/5
+    @PutMapping("/{id}")
+    public ProductResponse updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
+        return productService.update(id, request);
+    }
+
+    // DELETE /api/products/5
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();   // 204 No Content
+    }
+
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest request) {
         ProductResponse created = productService.create(request);

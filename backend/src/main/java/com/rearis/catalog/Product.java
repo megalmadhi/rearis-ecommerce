@@ -60,6 +60,22 @@ public class Product {
         this.active = true;
     }
 
+    public void update(String name, String nameEn, String description, String descriptionEn,
+                       BigDecimal price, int stock, String imageUrl, Category category) {
+        this.name = name;
+        this.nameEn = nameEn;
+        this.description = description;
+        this.descriptionEn = descriptionEn;
+        this.price = price;
+        this.stock = stock;
+        this.imageUrl = imageUrl;
+        this.category = category;
+    }
+
+    public void deactivate() {
+        this.active = false;
+    }
+
     public Long getId() { return id; }
     public String getName() { return name; }
     public String getNameEn() { return nameEn; }
