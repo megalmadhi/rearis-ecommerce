@@ -2,6 +2,7 @@ package com.rearis.catalog;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.Version;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -44,6 +45,9 @@ public class Product {
 
     @Column(nullable = false)
     private boolean active;
+
+    @Version
+    private Long version;
 
     protected Product() {}
 
