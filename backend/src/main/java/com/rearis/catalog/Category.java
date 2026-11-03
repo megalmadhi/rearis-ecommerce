@@ -21,8 +21,9 @@ public class Category {
 
     protected Category() {}   // JPA needs an empty constructor to build objects from rows
 
-    public Category(String name, String slug) {
+    public Category(String name, String nameEn, String slug) {
         this.name = name;
+        this.nameEn = nameEn;
         this.slug = slug;
     }
 
